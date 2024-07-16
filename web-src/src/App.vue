@@ -151,9 +151,10 @@ export default {
         protocol = 'wss://'
       }
 
-      let wsUrl = `${protocol + window.location.hostname}:${
-        vm.$store.state.config.websocket_port
-      }`
+      // let wsUrl = `${protocol + window.location.hostname}:${
+      //   vm.$store.state.config.websocket_port
+      // }`
+      let wsUrl = `${protocol + window.location.hostname}`
 
       if (import.meta.env.DEV && import.meta.env.VITE_OWNTONE_URL) {
         /*
