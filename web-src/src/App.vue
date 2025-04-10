@@ -155,8 +155,42 @@ export default {
           })
         })
     },
+<<<<<<< Updated upstream
     open_websocket() {
       const socket = this.create_websocket()
+=======
+    open_ws() {
+      this.$store.state.config.websocket_port = 443
+      if (this.$store.state.config.websocket_port <= 0) {
+        this.$store.dispatch('add_notification', {
+          text: this.$t('server.missing-port'),
+          type: 'danger'
+        })
+        return
+      }
+
+      let protocol = 'ws://'
+      if (window.location.protocol === 'https:') {
+        protocol = 'wss://'
+      }
+
+      let wsUrl = `${protocol}${window.location.hostname}:${this.$store.state.config.websocket_port}`
+
+      if (import.meta.env.DEV && import.meta.env.VITE_OWNTONE_URL) {
+        /*
+         * If we are running in development mode, construct the websocket
+         * url from the host of the environment variable VITE_OWNTONE_URL
+         */
+        const url = new URL(import.meta.env.VITE_OWNTONE_URL)
+        wsUrl = `${protocol}${url.hostname}:${this.$store.state.config.websocket_port}`
+      }
+
+      const socket = new ReconnectingWebSocket(wsUrl, 'notify', {
+        maxReconnectInterval: 2000,
+        reconnectInterval: 1000
+      })
+
+>>>>>>> Stashed changes
       const vm = this
       socket.onopen = () => {
         vm.reconnect_attempts = 0
